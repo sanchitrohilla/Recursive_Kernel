@@ -1,7 +1,7 @@
 #!/bin/bash
 export KBUILD_BUILD_USER="root"
 export KBUILD_BUILD_HOST="sanchit"
-export CROSS_COMPILE=/home/sanchitrohilla68/aarch64-linux-android-4.9-uber-master/bin/aarch64-linux-android-
+export CROSS_COMPILE=/home/aarch64-linux-android-4.9-uber-master/bin/aarch64-linux-android-
 export ARCH=arm64
 export SUBARCH=arm64
 make clean && make mrproper
