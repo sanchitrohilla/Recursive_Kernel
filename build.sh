@@ -1,14 +1,14 @@
 #!/bin/bash
 export KBUILD_BUILD_USER="root"
 export KBUILD_BUILD_HOST="sanchit"
-export CROSS_COMPILE=/home/aarch64-linux-android-4.9-uber-master/bin/aarch64-linux-android-
+export CROSS_COMPILE=/home/aarch64-linaro-linux-android/bin/aarch64-linaro-linux-android-
 export ARCH=arm64
 export SUBARCH=arm64
 make clean && make mrproper
 rm -rf anykernel/dt.img
 #rm -rf ../anykernel/modules/wlan.ko
 rm -rf anykernel/zImage
-ccache -M 10G
+export USE_CCACHE=1
 BUILD_START=$(date +"%s")
 KERNEL_DIR=$PWD
 DTBTOOL=$KERNEL_DIR/tools/dtbToolCM
@@ -19,7 +19,7 @@ nocol='\033[0m'
 echo "Starting"
 make lineageos_tomato_defconfig
 echo "Making"
-make -j8
+make -j16
 echo "Making dt.img"
 $DTBTOOL -2 -o $KERNEL_DIR/arch/arm64/boot/dt.img -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
 echo "Done"
@@ -42,6 +42,6 @@ zip -r Recursive-kernel-$BUILD_TIME *
 cd ..
 gdrive upload anykernel/Recursive-kernel-$BUILD_TIME.zip
 rm -rf anykernel/Recursive-kernel-$BUILD_TIME.zip
-rm -rf anykernel/dt.img
-rm -rf anykernel/zImage
+#rm -rf anykernel/dt.img
+#rm -rf anykernel/zImage
 fi
