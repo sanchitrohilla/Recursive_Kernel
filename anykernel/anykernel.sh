@@ -26,6 +26,13 @@ is_slot_device=0;
 # import patching functions/variables - see for reference
 . /tmp/anykernel/tools/ak2-core.sh;
 
+chmod -R 750 $ramdisk/*;
+chmod 644 $ramdisk/sbin/media_profiles.xml;
+chmod -R root:root $ramdisk/*;
+chmod -R root:root $ramdisk/*;
+chmod 644 $ramdisk/init.spectrum.rc
+chmod 644 $ramdisk/init.spectrum.sh
+
 ## AnyKernel install
 dump_boot;
 
@@ -47,6 +54,14 @@ patch_fstab fstab.tuna /system ext4 options "noatime,barrier=1" "noatime,nodirat
 patch_fstab fstab.tuna /cache ext4 options "barrier=1" "barrier=0,nomblk_io_submit";
 patch_fstab fstab.tuna /data ext4 options "data=ordered" "nomblk_io_submit,data=writeback";
 append_file fstab.tuna "usbdisk" fstab;
+
+ui_print "Pushing Spectrum Profiles...";
+found=$(find init.rc -type f | xargs grep -oh "import /init.spectrum.rc");
+if [ "$found" != 'import /init.spectrum.rc' ]; then
+               echo "" >> init.rc
+echo "import /init.spectrum.rc" >> init.rc
+fi
+ui_print "Spectrum Profiles pushed Successfully....Enjoy!!!"
 
 # end ramdisk changes
 
