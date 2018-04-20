@@ -588,9 +588,6 @@ sg_write(struct file *filp, const char __user *buf, size_t count, loff_t * ppos)
 	sg_io_hdr_t *hp;
 	unsigned char cmnd[SG_MAX_CDB_SIZE];
 
-	if (unlikely(segment_eq(get_fs(), KERNEL_DS)))
-		return -EINVAL;
-
 	if ((!(sfp = (Sg_fd *) filp->private_data)) || (!(sdp = sfp->parentdp)))
 		return -ENXIO;
 	SCSI_LOG_TIMEOUT(3, printk("sg_write: %s, count=%d\n",
@@ -1708,7 +1705,12 @@ sg_start_req(Sg_request *srp, unsigned char *cmd)
 		return -ENOMEM;
 	}
 
-	blk_rq_set_block_pc(rq);
+
+//	blk_rq_set_block_pc(rq);
+
+	if (hp->cmd_len > BLK_MAX_CDB)
+		rq->cmd = long_cmdp;
+	memcpy(rq->cmd, cmd, hp->cmd_len);
 
 	if (hp->cmd_len > BLK_MAX_CDB)
 		rq->cmd = long_cmdp;
