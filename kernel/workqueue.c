@@ -284,7 +284,6 @@ static bool wq_power_efficient = true;
 #else
 static bool wq_power_efficient;
 #endif
-static bool wq_power_efficient = true;
 
 module_param_named(power_efficient, wq_power_efficient, bool, 0444);
 
