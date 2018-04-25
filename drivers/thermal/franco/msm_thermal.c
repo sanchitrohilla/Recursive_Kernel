@@ -16,7 +16,6 @@
  * 10. Altered the Formatting of the Codes (looks cleaner and more beautiful now).
  * 11. Updated Shoaib's Core Control to v2.1 (AiO HotPlug's Dependency Removed).
  * 12. Updated Shoaib's Core Control to v2.2 (All Checks Removed for Thermal Table). 
- * 13. Updated Shoaib's Core Control to v2.4 (Core 0 Permission Toggle replaced with a Native one).
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -72,8 +71,7 @@ static struct kobject *cc_kobj;
 
 #if (NR_CPUS == 6 || NR_CPUS == 8)	// Assume Hexa/Octa-Core SoCs to be based on big.LITTLE architecture.
 // Permission to Disable Core 0 Toggle.
-static int Core0_Toggle = 0;
-module_param (Core0_Toggle, int, 0644);
+extern bool hotplug_boost;
 #endif
 
 /* Temperature Threshold Storage */
@@ -275,15 +273,10 @@ static void __ref check_temp(struct work_struct *work)
 	            if (cpu_online(1))
 	               cpu_down(1);
 	            // Disable Core 0 only if Permission is Granted.
-	            if (Core0_Toggle == 1)
+	            if (hotplug_boost == true)
 		    {
 	               if (cpu_online(0))
 	                  cpu_down(0);
-		    }
-		    else
-		    {
-			if (!cpu_online(0))
-			   cpu_up(0);
 		    }
 		    if (cpu_online(5))
 	               cpu_down(5);
@@ -304,15 +297,10 @@ static void __ref check_temp(struct work_struct *work)
 		      if (cpu_online(1))
 	                 cpu_down(1);
 	              // Disable Core 0 only if Permission is Granted.
-	              if (Core0_Toggle == 1)
+	              if (hotplug_boost == true)
 		      {
 	                 if (cpu_online(0))
 	                    cpu_down(0);
-		      }
-		      else
-		      {
-			  if (!cpu_online(0))
-			     cpu_up(0);
 		      }
 	          }
 		  else if (temp == 50)
@@ -333,15 +321,10 @@ static void __ref check_temp(struct work_struct *work)
 	            if (cpu_online(1))
 	               cpu_down(1);
 		    // Disable Core 0 only if Permission is Granted.
-	            if (Core0_Toggle == 1)
+	            if (hotplug_boost == true)
 		    {
 	               if (cpu_online(0))
 	                  cpu_down(0);
-		    }
-		    else
-		    {
-			if (!cpu_online(0))
-			   cpu_up(0);
 		    }
 	            if (cpu_online(7))
 	               cpu_down(7);
@@ -362,16 +345,12 @@ static void __ref check_temp(struct work_struct *work)
 		         if (cpu_online(1))
 	                    cpu_down(1);
 		         // Disable Core 0 only if Permission is Granted.
-		         if (Core0_Toggle == 1)
+		         if (hotplug_boost == true)
 		         {
-	                    if (cpu_online(0))
-	                       cpu_down(0);
+	                 if (cpu_online(0))
+	                    cpu_down(0);
 		         }
-		         else
-		    	 {
-			     if (!cpu_online(0))
-			        cpu_up(0);
-		         }
+		      
 	         }
 	         else if (temp > 45 && temp <= 50)
 	         {
