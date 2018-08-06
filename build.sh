@@ -1,7 +1,7 @@
 #!/bin/bash
 export KBUILD_BUILD_USER="root"
 export KBUILD_BUILD_HOST="sanchit"
-export CROSS_COMPILE=/home/aarch64-linaro-linux-android/bin/aarch64-linaro-linux-android-
+export CROSS_COMPILE=/home/sanchit/linaro7/bin/aarch64-linux-gnu-
 export ARCH=arm64
 export SUBARCH=arm64
 make clean && make mrproper
@@ -30,7 +30,7 @@ if [[ ! -f "${IMAGE}" ]]; then
 else
 BUILD_END=$(date +"%s");
 DIFF=$(($BUILD_END - $BUILD_START));
-BUILD_TIME=$(date +"%Y%m%d-%T");
+BUILD_TIME=$(date +"%Y%m%d");
 echo -e "$yellow Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds.$nocol";
 echo "Movings Files"
 cd anykernel
@@ -45,3 +45,4 @@ rm -rf anykernel/Recursive-kernel-$BUILD_TIME.zip
 #rm -rf anykernel/dt.img
 #rm -rf anykernel/zImage
 fi
+make clean && make mrproper
