@@ -19,7 +19,7 @@ nocol='\033[0m'
 echo "Starting"
 make lineageos_tomato_defconfig
 echo "Making"
-make -j16
+make -j8
 echo "Making dt.img"
 $DTBTOOL -2 -o $KERNEL_DIR/arch/arm64/boot/dt.img -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
 echo "Done"
@@ -38,11 +38,11 @@ mv $KERNEL_DIR/arch/arm64/boot/Image zImage
 mv $KERNEL_DIR/arch/arm64/boot/dt.img dt.img
 #mv $KERNEL_DIR/drivers/staging/prima/wlan.ko modules/wlan.ko
 echo "Making Zip"
-zip -r Recursive-kernel-$BUILD_TIME *
+zip -r Recursive-kernel-v2-$BUILD_TIME *
 cd ..
-gdrive upload anykernel/Recursive-kernel-$BUILD_TIME.zip
-rm -rf anykernel/Recursive-kernel-$BUILD_TIME.zip
+gdrive upload anykernel/Recursive-kernel-v2-$BUILD_TIME.zip
+rm -rf anykernel/Recursive-kernel-v2-$BUILD_TIME.zip
 #rm -rf anykernel/dt.img
 #rm -rf anykernel/zImage
 fi
-make clean && make mrproper
+#make clean && make mrproper

@@ -330,7 +330,7 @@ static inline int msm_thermal_get_cluster_voltage_plan(uint32_t cluster,
 {
 	return -ENOSYS;
 }
-#endif
-#endif
 
+#endif
+#endif
 #endif /*__MSM_THERMAL_H*/

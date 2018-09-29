@@ -450,7 +450,6 @@ static void q6asm_session_free(struct audio_client *ac)
 	return;
 }
 
-
 static uint32_t q6asm_get_next_buf(uint32_t curr_buf, uint32_t max_buf_cnt)
 {
 	pr_debug("%s: curr_buf = %d, max_buf_cnt = %d\n",
