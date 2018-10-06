@@ -380,6 +380,12 @@
 	};
 	#endif
 
+        qcom,msm-thermal-simple {
+                   compatible = "qcom,msm-thermal-simple";
+                   qcom,thermal-vadc = <&pm8916_vadc>;
+                   qcom,adc-channel = <54>; /* patherm0 defined in msm8939-common  */
+           };
+
 	jtag_fuse: jtagfuse@5e01c {
 		compatible = "qcom,jtag-fuse";
 		reg = <0x5e01c 0x8>;
